@@ -43,8 +43,8 @@ def learing():
     # Keras Linear Regression
     import numpy as np
     from keras import optimizers
-    from keras.layers import _____
-    from keras.models import _________
+    from keras.models import Sequential
+    from keras.layers import Dense
     
     t_a = int(t_aSpbox.get()) - 1
     t_t = int(t_tSpbox.get()) 
@@ -53,27 +53,27 @@ def learing():
     
     # Keras Datasets Load from MNIST dataset
     from keras.datasets import mnist
-    (x_train, y_train), (x_test, y_test) = mnist._________
+    (x_train, y_train), (x_test, y_test) = mnist.load_data()
 
-    model = _________
+    model = Sequential()
     model.add(Dense(512, activation='relu', input_shape=(28 * 28,)))
     model.add(Dense(10, activation='softmax'))
 
     # Model Compile set up
-    model._______(optimizer='rmsprop',
-                    loss='_____________',
+    model.compile(optimizer='rmsprop',
+                    loss='categorical_crossentropy',
                     metrics=['accuracy'])
 
     # preprocess our data by reshaping it into the shape between 0 and 1.
-    x_train = x_train.________((60000, 28 * 28))
-    x_train = x_train._______('float32') / 255
+    x_train = x_train.reshape((60000, 28 * 28))
+    x_train = x_train.astype('float32') / 255
 
     x_test_original = x_test
-    x_test = x_test.________((10000, 28 * 28))
-    x_test = x_test._________('float32') / 255
+    x_test = x_test.reshape((10000, 28 * 28))
+    x_test = x_test.astype('float32') / 255
 
     # optimizer
-    from keras.utils import _____________
+    from keras.utils import to_categorical
 
     y_train = to_categorical(y_train)
     y_test = to_categorical(y_test)
@@ -82,28 +82,28 @@ def learing():
     Callback EarlyStopping, ModelCheckpoint
     """
     # Import the early stopping callback
-    from keras.callbacks import ____________, _____________
+    from keras.callbacks import EarlyStopping, ModelCheckpoint
 
     # Save the best model as best_digits_model.hdf5
-    modelCheckpoint = _____________('best_digits_model.hdf5', save_best_only=True)
+    modelCheckpoint = ModelCheckpoint('best_digits_model.hdf5', save_best_only=True)
 
     # Define a callback to monitor val_acc
-    monitor_val_acc = _____________(monitor='val_acc', 
-                           _________=5)
+    monitor_val_acc = EarlyStopping(monitor='val_accuracy',
+                           patience=5)
 
     # Train the model using the early stopping callback
     history = model.fit(x_train, y_train, 
-                        _____________=(x_test, y_test),
-                        _______=t_t, batch_size=128,
-                        callbacks=[____________, _____________])
+                        validation_data=(x_test, y_test),
+                        epochs=t_t, batch_size=128,
+                        callbacks=[monitor_val_acc, modelCheckpoint])
 
     result = model.predict(np.array([x_test[selected_image]]))
     result_number = np.argmax(result)
 
     loss_ax.plot(history.history['loss'], 'ro', label='train loss')
     loss_ax.plot(history.history['val_loss'], 'r:', label='val loss')
-    acc_ax.plot(history.history['acc'], 'bo', label='train acc')
-    acc_ax.plot(history.history['val_acc'], 'b:', label='val acc')
+    acc_ax.plot(history.history['accuracy'], 'bo', label='train acc')
+    acc_ax.plot(history.history['val_accuracy'], 'b:', label='val acc')
     loss_ax.legend(loc='upper left')
     acc_ax.legend(loc='upper left')   
     
