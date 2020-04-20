@@ -30,7 +30,7 @@ x_test = [ r[0:3] for r in record_2017]
 y_test = [ r[3:7] for r in record_2017]
 
 gender_list = ['Female', 'Male']
-grad_fig = Figure(figsize=(10, 6), dpi=100)
+grad_fig = Figure(figsize=(8, 4), dpi=100)
 grad_ax = grad_fig.add_subplot(111)
 grad_ax.set_xlim(15, 88)
 grad_ax.set_ylim(0, 1300)
@@ -119,7 +119,7 @@ def learing():
 
     # Testing our model
     winner = [ t_g, t_y, t_p ]
-    time = model.evaluate(np.array([winner]))
+    time = model.predict(np.array([winner]))
 
     log_ScrolledText.insert(END, "%20s" % ('\n\nRecords Prediction\n\n'), 'HEADER')
     log_ScrolledText.insert(END, "%20s %30s %30s %20s" % ('Distance(km)', 'Real record', 'ML Prediction', 'Variation(Second)')+'\n\n')
