@@ -4,19 +4,19 @@ import tkinter.scrolledtext as tkst
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
-loss_fig = Figure(figsize=(5,5), dpi=100)
+loss_fig = Figure(figsize=(4,4), dpi=100)
 loss_ax = loss_fig.add_subplot(111)
 loss_ax.set_xlabel('Epochs')
 loss_ax.set_ylabel('Loss')
 loss_ax.set_title('History of loss')
 
-acc_fig = Figure(figsize=(5,5), dpi=100)
+acc_fig = Figure(figsize=(4,4), dpi=100)
 acc_ax = acc_fig.add_subplot(111)
 acc_ax.set_xlabel('Epochs')
 acc_ax.set_ylabel('Accuracy')
 acc_ax.set_title('History of accuracy')
 
-digit_fig = Figure(figsize=(5,5), dpi=100)
+digit_fig = Figure(figsize=(4,3), dpi=100)
 digit_ax = digit_fig.add_subplot(111)
 digit_ax.set_title('Selected Digit Image')
 # Major ticks every 20, minor ticks every 5
@@ -32,7 +32,7 @@ digit_ax.grid(which='both')
 digit_ax.grid(which='minor', alpha=0.2)
 digit_ax.grid(which='major', alpha=0.5)
 
-number_fig = Figure(figsize=(5,5), dpi=100)
+number_fig = Figure(figsize=(4,3), dpi=100)
 number_ax = number_fig.add_subplot(111)
 number_ax.set_title('Probalility Chart')
 
@@ -145,7 +145,7 @@ t_tLabel.grid(row=0,column=2)
 Button(main,text="Deep Learing", height=1,command=lambda:learing()).grid(row=0, column=4, columnspan=2, sticky=(W, E))
     
 loss_canvas = FigureCanvasTkAgg(loss_fig, main)
-loss_canvas.get_tk_widget().grid(row=1,column=0,columnspan=3) 
+loss_canvas.get_tk_widget().grid(row=1,column=0,columnspan=3)
 
 acc_canvas = FigureCanvasTkAgg(acc_fig, main)
 acc_canvas.get_tk_widget().grid(row=1,column=3,columnspan=3)
